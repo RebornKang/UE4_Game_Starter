@@ -14,7 +14,6 @@ UOpenDoor::UOpenDoor()
 	// ...
 }
 
-
 // Called when the game starts
 void UOpenDoor::BeginPlay()
 {
@@ -27,16 +26,22 @@ void UOpenDoor::BeginPlay()
 
 void UOpenDoor::OpenDoor()
 {
+	OnOpenRequest.Broadcast();
+	/*
 	AActor* ownerObject = GetOwner();
 	FRotator newRotation = FRotator(0.0f, OpenAngle, 0.0f);
 	ownerObject->SetActorRotation(newRotation);
+	*/
 }
 
 void UOpenDoor::CloseDoor()
 {
+	OnCloseRequest.Broadcast();
+	/*
 	AActor* ownerObject = GetOwner();
 	FRotator newRotation = FRotator(0.0f, 0.0f, 0.0f);
 	ownerObject->SetActorRotation(newRotation);
+	*/
 }
 
 
@@ -66,6 +71,7 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate()
 	float TotalMass = 0.f;
 	// Find all the overlapping actor
 	TArray<AActor*> OverlappingActors;
+	if (!PressurePlate) { return 0; }
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 	// Iterate through them adding their masses
 	for (const auto& Actor : OverlappingActors)
